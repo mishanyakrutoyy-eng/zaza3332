@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Персональный доступ — Михаил Авторитет</title>
+
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            outfit: ['"Outfit"', 'sans-serif'],
+            inter: ['"Inter"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            noir: {
+              950: '#08090E',
+              900: '#0D0F16',
+              850: '#12151F',
+              800: '#171B26',
+              700: '#222838',
+            },
+            champagne: {
+              50: '#FAF8F5',
+              100: '#F5EFE6',
+              200: '#EADECA',
+              300: '#DEC6A7',
+              400: '#CDB088',
+              500: '#B8976C',
+            },
+            pearl: '#F7F4ED',
+          },
+          animation: {
+            'breathe-orb-1': 'breatheOrb1 16s ease-in-out infinite alternate',
+            'breathe-orb-2': 'breatheOrb2 19s ease-in-out infinite alternate',
+            'spin-ultra-slow': 'spin 40s linear infinite',
+            'spin-reverse-slow': 'spinReverse 32s linear infinite',
+            'subtle-pulse': 'subtlePulse 4s ease-in-out infinite',
+            'gold-shimmer': 'goldShimmer 6s linear infinite',
+          },
+          keyframes: {
+            breatheOrb1: {
+              '0%': { transform: 'translate(0px, 0px) scale(1)' },
+              '50%': { transform: 'translate(60px, -40px) scale(1.15)' },
+              '100%': { transform: 'translate(-30px, 50px) scale(0.92)' },
+            },
+            breatheOrb2: {
+              '0%': { transform: 'translate(0px, 0px) scale(1)' },
+              '50%': { transform: 'translate(-80px, 50px) scale(1.12)' },
+              '100%': { transform: 'translate(40px, -30px) scale(0.95)' },
+            },
+            spinReverse: {
+              '0%': { transform: 'rotate(360deg)' },
+              '100%': { transform: 'rotate(0deg)' },
+            },
+            subtlePulse: {
+              '0%, 100%': { transform: 'scale(1)', opacity: '0.45' },
+              '50%': { transform: 'scale(1.04)', opacity: '0.75' },
+            },
+            goldShimmer: {
+              '0%': { backgroundPosition: '-200% 0' },
+              '100%': { backgroundPosition: '200% 0' },
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background-color: #08090E;
+      color: #E6EAF2;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      selection-background-color: rgba(222, 198, 167, 0.25);
+    }
+
+    h1, h2, h3, .font-heading {
+      font-family: 'Outfit', sans-serif;
+    }
+
+    /* Refined Satin Glassmorphism */
+    .glass-frosted {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 
+        0 30px 80px -20px rgba(0, 0, 0, 0.8),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+    }
+
+    .glass-gold-active {
+      border: 1px solid rgba(222, 198, 167, 0.35);
+      box-shadow: 
+        0 35px 95px -20px rgba(0, 0, 0, 0.9),
+        0 0 60px -15px rgba(205, 176, 136, 0.14),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    }
+
+    /* Champagne Gradient Typography */
+    .champagne-gradient-text {
+      background: linear-gradient(135deg, #FAF8F5 0%, #EADECA 45%, #CDB088 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Ambient Warm Glow Cursor Follower */
+    #cursor-ambient {
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: transform 0.15s cubic-bezier(0.2, 0, 0.2, 1), opacity 0.5s ease;
+    }
+
+    /* 3D Perspective Container */
+    .perspective-container {
+      perspective: 1200px;
+    }
+
+    .tilted-card {
+      transition: transform 0.2s cubic-bezier(0.2, 0, 0.2, 1), box-shadow 0.3s ease;
+      transform-style: preserve-3d;
+    }
+
+    /* Soft Atmospheric Bloom */
+    #bloom-overlay {
+      pointer-events: none;
+      transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  </style>
+</head>
+<body class="flex flex-col justify-between items-center relative p-4 sm:p-7 min-h-screen">
+
+  <!-- Interactive Smooth Ambient Lighting Follower -->
+  <div id="cursor-ambient" class="fixed w-[620px] h-[620px] rounded-full bg-gradient-to-r from-champagne-400/[0.045] via-amber-100/[0.02] to-transparent blur-[130px] z-0"></div>
+
+  <!-- Smooth Organic Background Lighting Orbs -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="absolute -top-32 left-1/4 w-[700px] h-[600px] bg-champagne-400/[0.035] rounded-full blur-[170px] animate-breathe-orb-1"></div>
+    <div class="absolute bottom-10 right-1/4 w-[650px] h-[600px] bg-slate-700/[0.04] rounded-full blur-[160px] animate-breathe-orb-2"></div>
+    <!-- Fine Subtle Grid/Noise Canvas -->
+    <div class="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.025)_1px,transparent_1px)] [background-size:28px_28px] opacity-60"></div>
+  </div>
+
+  <!-- Background Dust & Celebration Confetti Canvas -->
+  <canvas id="ambient-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-10"></canvas>
+
+  <!-- Atmospheric Bloom Veil (Warm satin gold transition, no harsh flash) -->
+  <div id="bloom-overlay" class="fixed inset-0 bg-gradient-to-b from-champagne-200/25 via-champagne-300/15 to-transparent opacity-0 z-40 backdrop-blur-[2px]"></div>
+
+  <header class="w-full max-w-4xl pt-2 sm:pt-4 flex justify-between items-center z-20">
+    <!-- Brand / Status Indicator Pill -->
+    <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full glass-frosted border border-white/10">
+      <span class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-champagne-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-champagne-400"></span>
+      </span>
+      <span class="text-xs font-outfit font-medium text-slate-300 tracking-wider uppercase">Личный сертификат</span>
+    </div>
+
+    <!-- Security/Node Status -->
+    <div class="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.02] border border-white/[0.06] text-[11px] font-mono text-champagne-300/80">
+      <svg class="w-3.5 h-3.5 text-champagne-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      <span>VPHUB SECURE NODE</span>
+    </div>
+  </header>
+
+  <main class="w-full max-w-xl my-auto py-8 sm:py-12 z-20 flex flex-col items-center justify-center">
+
+    <!-- HERO INTRODUCTION -->
+    <div class="w-full flex flex-col items-center text-center space-y-4 mb-4">
+      
+      <!-- Donor VIP Badge -->
+      <div class="relative group cursor-default inline-block">
+        <div class="absolute -inset-1 rounded-full bg-champagne-400/20 blur-md opacity-40 group-hover:opacity-75 transition-all duration-700"></div>
+        
+        <div class="relative inline-flex items-center gap-3 px-5 py-2.5 rounded-full glass-frosted border border-champagne-400/30 group-hover:border-champagne-400/50 transition-all duration-500">
+          <span class="w-5 h-5 rounded-full bg-champagne-400/15 text-champagne-300 flex items-center justify-center">
+            <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+              <path d="M5 16L3 5L8.5 10L12 4L15.5 10L21 5L19 16H5M19 19C19 19.6 18.6 20 18 20H6C5.4 20 5 19.6 5 19V18H19V19Z"/>
+            </svg>
+          </span>
+
+          <div class="flex items-center gap-2 text-xs sm:text-[13px] font-outfit">
+            <span class="text-slate-400 font-light">Подарок От:</span>
+            <span class="font-semibold text-white tracking-wide">Михаил Авторитет</span>
+          </div>
+
+          <div class="w-[1px] h-3 bg-white/15"></div>
+          <span class="text-[10px] font-mono tracking-widest uppercase text-champagne-300 font-medium">VIP ДОСТУП</span>
+        </div>
+      </div>
+
+      <!-- Main Headline in Outfit font -->
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-outfit font-semibold text-white tracking-tight leading-[1.15]">
+        Персональный доступ <br>
+        <span class="champagne-gradient-text font-bold">к выделенному узлу</span>
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-400/90 font-inter font-light max-w-md leading-relaxed">
+        Ваш приватный конфигурационный ключ подготовлен и ожидает подтверждения активации.
+      </p>
+    </div>
+
+    <!-- STAGE 1 & 2: The Interactive Sealed Artifact & Slow Ritual -->
+    <div id="unseal-chamber" class="w-full flex flex-col items-center text-center transition-all duration-700 ease-out">
+      
+      <!-- Interactive Medallion / Seal -->
+      <div id="btn-unseal" class="relative group cursor-pointer my-6 p-4">
+        <!-- Concentric Soft Glow Rings -->
+        <div id="glow-ambient-circle" class="absolute -inset-10 rounded-full bg-champagne-400/[0.08] blur-2xl group-hover:bg-champagne-400/[0.16] transition-all duration-1000"></div>
+
+        <!-- Rotating Decorative Geometry Rings -->
+        <div class="absolute -inset-6 rounded-full border border-champagne-400/20 border-dashed animate-spin-ultra-slow pointer-events-none"></div>
+        <div class="absolute -inset-2 rounded-full border border-white/[0.06] animate-spin-reverse-slow pointer-events-none"></div>
+
+        <!-- Center Chamber Capsule -->
+        <div id="chamber-medallion" class="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full glass-frosted border border-white/10 group-hover:border-champagne-400/40 flex flex-col items-center justify-center transition-all duration-700 group-hover:scale-[1.04] active:scale-[0.98] shadow-2xl">
+          
+          <div class="absolute inset-2 rounded-full border border-white/[0.03] pointer-events-none"></div>
+
+          <!-- Elegant Gift Chamber Icon -->
+          <div id="chamber-icon" class="relative text-champagne-300 transition-all duration-700 group-hover:scale-110">
+            <svg class="w-10 h-10 sm:w-12 sm:h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+              <path d="m3.3 7 8.7 5 8.7-5"/>
+              <path d="M12 22V12"/>
+            </svg>
+          </div>
+
+          <span class="mt-3 text-[11px] font-mono tracking-widest text-slate-400 group-hover:text-champagne-300 transition-colors uppercase">
+            Активировать
+          </span>
+        </div>
+      </div>
+
+      <!-- Button Trigger -->
+      <button 
+        id="btn-trigger-action"
+        class="mt-2 px-8 py-3.5 rounded-full bg-white/[0.04] hover:bg-champagne-400/15 border border-white/10 hover:border-champagne-400/40 text-sm font-outfit font-medium text-slate-200 hover:text-white transition-all duration-500 shadow-lg hover:shadow-champagne-400/10 active:scale-95 flex items-center gap-2.5"
+      >
+        <span>Открыть подарок</span>
+        <svg class="w-4 h-4 text-champagne-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </button>
+
+      <!-- Slow 4.5s Cinematic Progress Module -->
+      <div id="ritual-progress" class="w-full max-w-sm mt-8 px-2 opacity-0 pointer-events-none transition-all duration-500">
+        <div class="flex justify-between items-center text-[12px] font-mono text-champagne-300/90 mb-2.5">
+          <span id="ritual-status-label" class="tracking-wide">ИНИЦИАЛИЗАЦИЯ ПОДАРКА...</span>
+          <span id="ritual-percent" class="font-semibold">0%</span>
+        </div>
+        
+        <div class="w-full h-1.5 rounded-full bg-white/[0.05] border border-white/[0.08] overflow-hidden p-[1px]">
+          <div id="ritual-progress-fill" class="h-full rounded-full bg-gradient-to-r from-champagne-500 via-champagne-300 to-champagne-200 w-0 transition-all duration-100 ease-out shadow-[0_0_15px_rgba(222,198,167,0.5)]"></div>
+        </div>
+
+        <p class="text-[11px] text-slate-400 font-inter font-light text-center mt-3 tracking-normal">
+          Генерация зашифрованного токена соединения
+        </p>
+      </div>
+    </div>
+
+    <div id="reward-section" class="w-full perspective-container hidden opacity-0 scale-95 transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1)">
+      <div id="interactive-card" class="tilted-card glass-frosted glass-gold-active rounded-3xl p-6 sm:p-9 relative overflow-hidden">
+        
+        <!-- Soft interior warm light bloom -->
+        <div class="absolute -top-28 -right-28 w-60 h-60 bg-champagne-400/[0.08] rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- Card Header -->
+        <div class="flex items-center justify-between gap-4 pb-6 border-b border-white/[0.07] mb-6">
+          <div class="flex items-center gap-3.5">
+            <div class="w-11 h-11 rounded-2xl bg-champagne-400/15 border border-champagne-400/30 flex items-center justify-center text-champagne-300">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h2 class="text-lg sm:text-xl font-outfit font-semibold text-white tracking-tight">
+                  Подарок активирован
+                </h2>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono bg-champagne-400/10 text-champagne-300 border border-champagne-400/20">
+                  Готов
+                </span>
+              </div>
+              <p class="text-xs text-slate-400 font-inter font-light mt-0.5">Персональный шлюз успешно верифицирован</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Donor info inside card -->
+        <div class="p-3.5 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-between mb-6">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-champagne-400/20 border border-champagne-400/30 flex items-center justify-center text-champagne-200 font-outfit font-semibold text-xs">
+              МА
+            </div>
+            <div>
+              <span class="text-[11px] text-slate-400 block font-light">Подарок От:</span>
+              <span class="text-xs sm:text-sm font-outfit font-medium text-white tracking-wide">Михаил Авторитет</span>
+            </div>
+          </div>
+          <span class="text-[11px] font-mono text-champagne-300/90 bg-champagne-400/10 px-3 py-1 rounded-full border border-champagne-400/20">
+            VIP Квота
+          </span>
+        </div>
+
+        <!-- Link Display Section -->
+        <div class="mb-6">
+          <div class="flex justify-between items-center mb-2 px-1">
+            <label for="gift-link-input" class="text-xs font-outfit font-light text-slate-300">
+              Подарочный конфигурационный ключ:
+            </label>
+            <span class="text-[11px] text-slate-400 font-mono">1 клик для копирования</span>
+          </div>
+
+          <div class="relative group">
+            <input 
+              type="text" 
+              id="gift-link-input" 
+              readonly 
+              value="https://connect.vphub.me/sub/zpfMbx8r0XXEyWsC"
+              class="w-full py-4 pl-4 pr-14 text-xs sm:text-sm font-mono text-champagne-100 bg-noir-950/80 rounded-2xl border border-white/10 group-hover:border-champagne-400/40 focus:outline-none focus:border-champagne-400/60 transition-all select-all tracking-tight"
+            >
+            <button 
+              id="btn-copy-icon" 
+              title="Скопировать ссылку"
+              class="absolute right-2.5 top-1/2 -translate-y-1/2 p-2.5 rounded-xl bg-white/[0.05] hover:bg-champagne-400/20 text-slate-300 hover:text-champagne-200 transition-all active:scale-95"
+            >
+              <svg id="icon-mini-copy" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+              </svg>
+              <svg id="icon-mini-check" class="w-4 h-4 text-champagne-300 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Dual Action Buttons -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+          <!-- Primary Satin Copy Button -->
+          <button 
+            id="btn-copy-action"
+            class="relative overflow-hidden w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-champagne-400 via-champagne-300 to-champagne-400 text-noir-950 font-outfit font-semibold text-sm tracking-wide flex items-center justify-center gap-2 hover:shadow-[0_12px_35px_-8px_rgba(205,176,136,0.35)] active:scale-[0.98] transition-all cursor-pointer"
+          >
+            <svg id="icon-btn-copy" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+              <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+            </svg>
+            <svg id="icon-btn-check" class="w-4 h-4 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <span id="btn-copy-text">Скопировать ключ</span>
+          </button>
+
+          <!-- Direct Open Button -->
+          <a 
+            href="https://connect.vphub.me/sub/zpfMbx8r0XXEyWsC" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="w-full py-3.5 px-5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-champagne-400/30 text-slate-300 hover:text-white font-outfit font-medium text-sm flex items-center justify-center gap-2 active:scale-[0.98] transition-all group"
+          >
+            <span>Открыть узел</span>
+            <svg class="w-4 h-4 text-slate-400 group-hover:text-champagne-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Meta-specs grid: 3 elegant frosted stats -->
+        <div class="grid grid-cols-3 gap-2.5 pt-5 border-t border-white/[0.06] text-center">
+          <div class="p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+            <span class="block text-[10px] font-mono text-slate-400 uppercase">Статус</span>
+            <span class="text-xs font-outfit font-semibold text-emerald-400">Активен</span>
+          </div>
+          <div class="p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+            <span class="block text-[10px] font-mono text-slate-400 uppercase">Тип узла</span>
+            <span class="text-xs font-outfit font-semibold text-champagne-200">Суб-линк</span>
+          </div>
+          <div class="p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+            <span class="block text-[10px] font-mono text-slate-400 uppercase">Отправитель</span>
+            <span class="text-xs font-outfit font-semibold text-white truncate block">М. Авторитет</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="w-full max-w-xl pb-3 text-center z-20">
+    <div class="inline-flex items-center gap-2 text-xs text-slate-400 font-inter font-light">
+      <span>Конфиденциальный подарок</span>
+      <span class="text-slate-600">•</span>
+      <span class="text-slate-300 font-medium">Доступ предоставлен Михаилом Авторитетом</span>
+    </div>
+  </footer>
+
+  <!-- Discreet Warm Floating Pill Notification Toast -->
+  <div id="toast-notify" class="fixed bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2.5 px-5 py-3 rounded-full glass-frosted border border-champagne-400/40 text-xs sm:text-sm text-champagne-100 shadow-2xl opacity-0 translate-y-4 pointer-events-none transition-all duration-300 z-50">
+    <svg class="w-4 h-4 text-champagne-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+    <span class="font-outfit font-medium text-champagne-200">Ключ успешно скопирован в буфер</span>
+  </div>
+
+  <script>
+    (function() {
+      // DOM Elements
+      const btnUnseal = document.getElementById('btn-unseal');
+      const btnTriggerAction = document.getElementById('btn-trigger-action');
+      const medallion = document.getElementById('chamber-medallion');
+      const ritualProgress = document.getElementById('ritual-progress');
+      const ritualProgressFill = document.getElementById('ritual-progress-fill');
+      const ritualStatusLabel = document.getElementById('ritual-status-label');
+      const ritualPercent = document.getElementById('ritual-percent');
+
+      const unsealChamber = document.getElementById('unseal-chamber');
+      const rewardSection = document.getElementById('reward-section');
+      const interactiveCard = document.getElementById('interactive-card');
+      const bloomOverlay = document.getElementById('bloom-overlay');
+
+      const giftLinkInput = document.getElementById('gift-link-input');
+      const btnCopyAction = document.getElementById('btn-copy-action');
+      const btnCopyIcon = document.getElementById('btn-copy-icon');
+      const btnCopyText = document.getElementById('btn-copy-text');
+      const iconBtnCopy = document.getElementById('icon-btn-copy');
+      const iconBtnCheck = document.getElementById('icon-btn-check');
+      const iconMiniCopy = document.getElementById('icon-mini-copy');
+      const iconMiniCheck = document.getElementById('icon-mini-check');
+
+      const toastNotify = document.getElementById('toast-notify');
+      const cursorAmbient = document.getElementById('cursor-ambient');
+
+      let isRitualActive = false;
+      let toastTimeout = null;
+
+      /* -------------------------------------------------------------
+         SMOOTH AMBIENT CURSOR FOLLOWER
+         ------------------------------------------------------------- */
+      window.addEventListener('pointermove', (e) => {
+        cursorAmbient.style.left = e.clientX + 'px';
+        cursorAmbient.style.top = e.clientY + 'px';
+      });
+
+      /* -------------------------------------------------------------
+         CARD 3D TILT EFFECT ON MOUSE MOVE
+         ------------------------------------------------------------- */
+      interactiveCard.addEventListener('mousemove', (e) => {
+        const rect = interactiveCard.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = ((y - centerY) / centerY) * -5.5;
+        const rotateY = ((x - centerX) / centerX) * 5.5;
+
+        interactiveCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      });
+
+      interactiveCard.addEventListener('mouseleave', () => {
+        interactiveCard.style.transform = 'rotateX(0deg) rotateY(0deg)';
+      });
+
+      /* -------------------------------------------------------------
+         CANVAS PARTICLES & CELEBRATION EMBERS
+         ------------------------------------------------------------- */
+      const canvas = document.getElementById('ambient-canvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      let width = canvas.width = window.innerWidth;
+      let height = canvas.height = window.innerHeight;
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      class Mote {
+        constructor(x, y, isBurst = false) {
+          this.x = x || Math.random() * width;
+          this.y = y || Math.random() * height;
+          this.isBurst = isBurst;
+
+          if (isBurst) {
+            const angle = Math.random() * Math.PI * 2;
+            const velocity = Math.random() * 5.5 + 1.2;
+            this.vx = Math.cos(angle) * velocity;
+            this.vy = Math.sin(angle) * velocity;
+            this.size = Math.random() * 2.4 + 1.0;
+            this.alpha = 0.95;
+            this.decay = Math.random() * 0.007 + 0.005;
+            this.color = Math.random() > 0.4 ? '#EADECA' : '#FAF8F5';
+          } else {
+            this.vx = (Math.random() - 0.5) * 0.25;
+            this.vy = -(Math.random() * 0.35 + 0.1);
+            this.size = Math.random() * 1.6 + 0.6;
+            this.alpha = Math.random() * 0.35 + 0.1;
+            this.decay = 0;
+            this.color = '#DEC6A7';
+          }
+        }
+
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+
+          if (this.isBurst) {
+            this.alpha -= this.decay;
+            this.vx *= 0.985;
+            this.vy *= 0.985;
+          } else {
+            if (this.y < -10) this.y = height + 10;
+            if (this.x < -10) this.x = width + 10;
+            if (this.x > width + 10) this.x = -10;
+          }
+        }
+
+        draw() {
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, this.alpha);
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.shadowColor = this.color;
+          ctx.shadowBlur = 8;
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+
+      for (let i = 0; i < 40; i++) {
+        particles.push(new Mote());
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.update();
+          p.draw();
+          if (p.isBurst && p.alpha <= 0) {
+            particles.splice(i, 1);
+          }
+        }
+        requestAnimationFrame(animate);
+      }
+      requestAnimationFrame(animate);
+
+      function spawnChampagneBurst(x, y, count = 85) {
+        for (let i = 0; i < count; i++) {
+          particles.push(new Mote(x, y, true));
+        }
+      }
+
+      /* -------------------------------------------------------------
+         4.5-SECOND UNBOXING RITUAL (Completely Silent, Deeply Visual)
+         ------------------------------------------------------------- */
+      const RITUAL_TIME = 4500;
+
+      function startUnsealProcess() {
+        if (isRitualActive) return;
+        isRitualActive = true;
+
+        btnTriggerAction.style.display = 'none';
+        ritualProgress.classList.remove('opacity-0', 'pointer-events-none');
+        ritualProgress.classList.add('opacity-100');
+        medallion.classList.add('border-champagne-400/70', 'scale-105');
+
+        const startTime = Date.now();
+        const rect = medallion.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const phases = [
+          { threshold: 0.12, label: "Инициализация подарка..." },
+          { threshold: 0.40, label: "Верификация доступа от Михаила..." },
+          { threshold: 0.72, label: "Шифрование индивидуального шлюза..." },
+          { threshold: 0.94, label: "Готово к получению" }
+        ];
+
+        const timer = setInterval(() => {
+          const elapsed = Date.now() - startTime;
+          const progress = Math.min(1, elapsed / RITUAL_TIME);
+          const percent = Math.floor(progress * 100);
+
+          ritualProgressFill.style.width = percent + '%';
+          ritualPercent.textContent = percent + '%';
+
+          for (let p of phases) {
+            if (progress >= p.threshold) {
+              ritualStatusLabel.textContent = p.label;
+            }
+          }
+
+          if (progress >= 1) {
+            clearInterval(timer);
+            completeRitual(centerX, centerY);
+          }
+        }, 30);
+      }
+
+      function completeRitual(x, y) {
+        // Soft warm bloom flare (not blinding white)
+        bloomOverlay.style.opacity = '0.9';
+        setTimeout(() => {
+          bloomOverlay.style.opacity = '0';
+        }, 600);
+
+        // Slow champagne sparkle burst
+        spawnChampagneBurst(x, y, 90);
+
+        // Hide seal chamber and reveal 3D Card
+        unsealChamber.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+
+        setTimeout(() => {
+          unsealChamber.classList.add('hidden');
+          rewardSection.classList.remove('hidden');
+
+          void rewardSection.offsetWidth; // Reflow
+          rewardSection.classList.remove('opacity-0', 'scale-95');
+          rewardSection.classList.add('opacity-100', 'scale-100');
+
+          setTimeout(() => spawnChampagneBurst(x - 70, y - 50, 35), 300);
+          setTimeout(() => spawnChampagneBurst(x + 70, y - 30, 35), 550);
+        }, 550);
+      }
+
+      btnUnseal.addEventListener('click', startUnsealProcess);
+      btnTriggerAction.addEventListener('click', startUnsealProcess);
+
+      /* -------------------------------------------------------------
+         CLIPBOARD COPY LOGIC & NOTIFICATION TOAST
+         ------------------------------------------------------------- */
+      function performCopy() {
+        const link = giftLinkInput.value;
+
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(link).catch(() => fallbackCopy(link));
+          } else {
+            fallbackCopy(link);
+          }
+        } catch (e) {
+          fallbackCopy(link);
+        }
+
+        // Animated feedback
+        btnCopyText.textContent = 'Скопировано в буфер';
+        iconBtnCopy.classList.add('hidden');
+        iconBtnCheck.classList.remove('hidden');
+
+        iconMiniCopy.classList.add('hidden');
+        iconMiniCheck.classList.remove('hidden');
+
+        triggerToast();
+
+        setTimeout(() => {
+          btnCopyText.textContent = 'Скопировать ключ';
+          iconBtnCopy.classList.remove('hidden');
+          iconBtnCheck.classList.add('hidden');
+
+          iconMiniCopy.classList.remove('hidden');
+          iconMiniCheck.classList.add('hidden');
+        }, 2400);
+      }
+
+      function fallbackCopy(text) {
+        giftLinkInput.select();
+        giftLinkInput.setSelectionRange(0, 99999);
+        document.execCommand('copy');
+      }
+
+      function triggerToast() {
+        if (toastTimeout) clearTimeout(toastTimeout);
+        toastNotify.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+        toastNotify.classList.add('opacity-100', 'translate-y-0');
+
+        toastTimeout = setTimeout(() => {
+          toastNotify.classList.remove('opacity-100', 'translate-y-0');
+          toastNotify.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+        }, 2600);
+      }
+
+      btnCopyAction.addEventListener('click', performCopy);
+      btnCopyIcon.addEventListener('click', performCopy);
+      giftLinkInput.addEventListener('click', () => giftLinkInput.select());
+    })();
+  </script>
+</body>
+</html>
